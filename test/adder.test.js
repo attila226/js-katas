@@ -1,7 +1,7 @@
-import add from '../src/adder';
+import { add } from "../src/adder";
 
 describe('adder tests', function () {
-  it('should return addition of two numbers', () => {
-    expect(add(1,1)).toBe(2);
+  it('Adding two positive integers', () =>{
+    expect(add(3,4)).toBe(7);
   });
 });

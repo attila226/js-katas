@@ -1,3 +1,5 @@
-const add = (a,b) => a+b;
 
-export default add;
+
+export function add(x, y){
+    return x + y;
+}
