@@ -22,22 +22,56 @@ export class BowlingGame {
       this.pinsLeft = 10;
       this.bonus = 0;
   }
-  roll(pins) {
-    if (this.bonus > 1) {
+  roll(pins, isDebug = false) {
+    if(isDebug){
+      console.log(`bonus ${this.bonus}`);
+    }
+
+    this.addBonus(pins);
+    this.frameRoll++;
+    this.pinsLeft -= pins;
+
+    // either a spare or a strike
+    if (this.isStrike()) {
+        this.bonus += 2;
+    } else if (this.isSpare()) {
+        this.bonus++;
+    } 
+    if(this.isEndOfFrame()){
+      this.reset();
+    }
+
+    this.score += pins;
+
+    if(isDebug){
+      console.log(`score = ${this.score}, pins: ${pins}, pinsLeft: ${this.pinsLeft}, bonus ${this.bonus}`)
+    }
+  }
+
+  isEndOfFrame(){
+    return (this.pinsLeft === 0 || this.frameRoll > 1);
+  }
+
+  isStrike() {
+    return this.pinsLeft === 0 && this.frameRoll === 1;
+  }
+
+  isSpare(){
+    return this.pinsLeft === 0 && this.frameRoll > 1;
+  }
+
+  addBonus(pins) {
+    if (this.bonus >= 1) {
         this.score += pins
         this.bonus--;
     }
-    this.frameRoll++;
-    this.pinsLeft -= pins;
-    // either a spare or a strike
-    if (this.pinsLeft === 0) {
-      // this is the case for a spare 
-      if (this.frameRoll > 1) {
-        this.bonus++;
-      }
+  }
 
-    }
-    this.score += pins;
+  reset() {
+    // All of the things that happen on a new frame
+    this.pinsLeft = 10;
+    this.frame++;
+    this.frameRoll = 0;
   }
 
   getScore() {

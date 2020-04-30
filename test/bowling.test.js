@@ -37,4 +37,41 @@ describe('BowlingGame tests', function () {
     expect(score).toBe(20);
   });
 
+  it('Rolling a strike returns correct score', () =>{
+    const bowlingGame = new BowlingGame();
+    bowlingGame.roll(10);    // 10 for frame 1 roll 1, strike
+    bowlingGame.roll(7);    // 7 for frame 2 roll 1
+    bowlingGame.roll(2);    // 2 for frame 2 roll 2
+                            // added into the first frame since it was a spare
+    for (var i=0; i<17; i++) {
+      bowlingGame.roll(0);
+    }
+    const score = bowlingGame.getScore();
+    expect(score).toBe(28);
+  });
+
+  it('Rolling a strike and a spare returns correct score', () =>{
+    const bowlingGame = new BowlingGame();
+    bowlingGame.roll(10);    // 10 for frame 1 roll 1, strike
+    bowlingGame.roll(7);    // 7 for frame 2 roll 1
+    bowlingGame.roll(3);    // 2 for frame 2 roll 2
+    bowlingGame.roll(1);    // 1 for frame 3 roll 1
+                            // added into the first frame since it was a spare
+    for (var i=0; i<16; i++) {
+      bowlingGame.roll(0);
+    }
+    const score = bowlingGame.getScore();
+    expect(score).toBe(32);
+  });
+
+  it('Perfect game results in correct score', () =>{
+    const bowlingGame = new BowlingGame();
+
+    for (var i=0; i<12; i++) {
+      bowlingGame.roll(10, true);
+    }
+    const score = bowlingGame.getScore();
+    expect(score).toBe(300);
+  });
+
 });
