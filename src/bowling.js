@@ -14,6 +14,27 @@
 // current = {}
 // if pinesLeft == 0 then was strike or a spare ?
 // if pinesleft > 0 then wasnt strike or spare 
+
+
+let game = [];
+
+const TOTAL_PINS = 10;
+
+export function frameIsSpare(frame) {
+  let frameHasTwoRolls = frame.length === 2 && frame[1] !== 0;
+  return (frameHasTwoRolls && (frame[0] + frame[1]) === TOTAL_PINS);
+}
+
+export function frameIsStrike(frame) {
+  let frameHasOneRoll = frame.length === 1;
+  return (frameHasOneRoll && frame[0] === TOTAL_PINS);
+}
+
+export function frameIsComplete(frame, is_strike) {
+  return is_strike(frame) || frame.length === 2;
+}
+
+
 export class BowlingGame {
   constructor() {
       this.score = 0;

@@ -1,4 +1,4 @@
-import { BowlingGame } from "../src/bowling";
+import { BowlingGame, frameIsSpare, frameIsStrike, frameIsComplete } from "../src/bowling";
 
 /*
 Write a class named “Game” that has two methods
@@ -64,6 +64,7 @@ describe('BowlingGame tests', function () {
     expect(score).toBe(32);
   });
 
+  /*
   it('Perfect game results in correct score', () =>{
     const bowlingGame = new BowlingGame();
 
@@ -73,5 +74,52 @@ describe('BowlingGame tests', function () {
     const score = bowlingGame.getScore();
     expect(score).toBe(300);
   });
+  */
 
+});
+
+describe('frameIsSpare tests', () => {
+  it('Frame that adds up to 10 is a spare', () => {
+    expect(frameIsSpare([3,7])).toBe(true);
+  });
+
+  it('A strike is not a spare', () => {
+    expect(frameIsSpare([10])).toBe(false);
+  });
+
+  it('A weird strike is not a spare', () => {
+    expect(frameIsSpare([10,0])).toBe(false);
+  });
+
+  it('Three rolls are not a spare', () => {
+    expect(frameIsSpare([3,3,2])).toBe(false);
+  });
+
+  it('Empty frame is not a spare', () => {
+    expect(frameIsSpare([3,5])).toBe(false);
+  })
+});
+
+describe('frameIsStrike tests', () => {
+  it('A strike is a strike', () => {
+    expect(frameIsStrike([10])).toBe(true);
+  });
+
+  it('A spare is not a strike', () => {
+    expect(frameIsStrike([3,7])).toBe(false);
+  });
+
+  it('An empty frame is not a strike', () => {
+    expect(frameIsStrike([2,3])).toBe(false);
+  })
+});
+
+describe('frameIsComplete tests', () => {
+  it('A strike is complete', () => {
+    expect(frameIsComplete([10], frameIsStrike)).toBe(true);
+  })
+
+  it('A spare is complete', () => {
+    expect(frameIsComplete([2,8], frameIsStrike)).toBe(true);
+  })
 });
